@@ -3,7 +3,7 @@ import numpy as np
 ### 定义二叉特征分裂函数
 def feature_split(X, feature_i, threshold):
     split_func = None
-    if isinstance(threshold, int) or isinstance(threshold, float):
+    if isinstance(threshold, (int, float)):
         split_func = lambda sample: sample[feature_i] >= threshold
     else:
         split_func = lambda sample: sample[feature_i] == threshold
@@ -18,8 +18,7 @@ def feature_split(X, feature_i, threshold):
 def calculate_gini(y):
     y = y.tolist()
     probs = [y.count(i)/len(y) for i in np.unique(y)]
-    gini = sum([p*(1-p) for p in probs])
-    return gini
+    return sum(p*(1-p) for p in probs)
 
 	
 ### 打乱数据

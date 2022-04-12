@@ -116,7 +116,7 @@ class BinaryDecisionTree(object):
         feature_value = x[tree.feature_i]
         # 判断落入左子树还是右子树
         branch = tree.right_branch
-        if isinstance(feature_value, int) or isinstance(feature_value, float):
+        if isinstance(feature_value, (int, float)):
             if feature_value >= tree.threshold:
                 branch = tree.left_branch
         elif feature_value == tree.threshold:
@@ -126,8 +126,7 @@ class BinaryDecisionTree(object):
 
     ### 数据集预测函数
     def predict(self, X):
-        y_pred = [self.predict_value(sample) for sample in X]
-        return y_pred
+        return [self.predict_value(sample) for sample in X]
 
 # CART分类树		
 class ClassificationTree(BinaryDecisionTree):
@@ -135,9 +134,7 @@ class ClassificationTree(BinaryDecisionTree):
     def _calculate_gini_impurity(self, y, y1, y2):
         p = len(y1) / len(y)
         gini = calculate_gini(y)
-	# 基尼不纯度
-        gini_impurity = p * calculate_gini(y1) + (1-p) * calculate_gini(y2)
-        return gini_impurity
+        return p * calculate_gini(y1) + (1-p) * calculate_gini(y2)
     
     ### 多数投票
     def _majority_vote(self, y):
